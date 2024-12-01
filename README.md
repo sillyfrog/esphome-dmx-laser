@@ -2,13 +2,15 @@
 
 This is my final configuration and hardware setup to connect a cheap "Laser Light Show" to Home Assistant using ESPHome using the DMX512 protocol.
 
+This uses [ESPHome](https://esphome.io/) with the [esphome-dmx512](https://github.com/andyboeh/esphome-dmx512) custom component to send DMX512 data to the laser light show. This then connects to Home Assistant as a number of light entities to control the pattern, color, speed etc.
+
 This should work with both an ESP8266 and ESP32.
 
 ## Hardware
 
-- Laser Light Show (I got this from (AliExpress)[https://www.aliexpress.com/item/1005005721491027.html])
+- Laser Light Show (I got this from [AliExpress](https://www.aliexpress.com/item/1005005721491027.html))
 - ESP8266 or ESP32 (I used a Wemos D1 Mini Pro)
-- RS485 to TTL module, there are many options, this is (one of the ones that worked)[https://www.aliexpress.com/item/1893567852.html] - there are more suitable ones designer for 3.3v
+- RS485 to TTL module, there are many options, this is [one of the ones that worked](https://www.aliexpress.com/item/1893567852.html) - there are more suitable ones designed for 3.3v
 - DMX 3 Pin Female Plug 
 
 Plus a power supply, wires etc.
@@ -21,7 +23,7 @@ The wiring is pretty simple, connect the RS485 module to the ESP8266 as follows:
 - ESP8266 GND -> RS485 GND
 - ESP8266 GPIO2 (D4) -> RS485 DI
 
-*DO NOT* connect from the RS485 data output to the ESP as it is 5v and may damage the ESP. 
+**DO NOT** connect from the RS485 data output to the ESP as it is 5v and may damage the ESP, this setup is just for sending data *to* the laser light show.
 
 Connecting the laser light show is also simple, connect
 - RS485 A -> XLR 3 (DMX +)
@@ -29,12 +31,12 @@ Connecting the laser light show is also simple, connect
 
 The XLR pin numbers are printed on the XLR connectors.
 
-Optionally, you can also connect the ground wire (although I didn't need it, but for longer runs it might be necessary):
+Optionally, you can also connect the ground wire (although I didn't need it, but for longer runs it might be necessary depending on the cabling used):
 - RS485 GND -> XLR 1 (GND)
 
-See the included `dmx.yaml` for the full ESPHome configuration.
+See the included `dmx.yaml` for the full ESPHome configuration, not the `wifi:`, `board:` sections need to be updated to match your network. This configuration automatically uses the `esphome-dmx512` custom component (there is no need to install it separately).
 
-I have everything configured as a light as it was simple for me to work with, and nothing needed each step of the 255 range.
+I have everything configured as a light as it was simple for me to work with, and nothing needed each step of the 255 range (ie: the range was mapped from 0-100% to the 0-255 range).
 
 # Changing the pattern etc
 
