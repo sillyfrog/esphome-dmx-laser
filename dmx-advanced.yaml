@@ -1,0 +1,335 @@
+esphome:
+  name: dmx
+
+esp8266:
+  board: d1_mini_pro
+  restore_from_flash: true
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  - platform: esphome
+    password: ""
+
+wifi:
+  ssid: "xxx"
+  password: "xxx"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+#   ap:
+#     ssid: "Dmx Fallback Hotspot"
+#     password: "GPaqLo2JYO9H"
+
+# captive_portal:
+
+external_components:
+  - source: github://andyboeh/esphome-dmx512
+
+uart:
+  id: uart_bus
+  baud_rate: 250000
+  tx_pin:
+    number: GPIO2 #ESP8266
+    allow_other_uses: true # for ESPHome >= 2023.12.0
+  stop_bits: 2
+
+dmx512:
+  id: dmx
+  uart_id: uart_bus
+  tx_pin:
+    number: GPIO2 #ESP8266
+    allow_other_uses: true # for ESPHome >= 2023.12.0
+  uart_num: 1
+  force_full_frames: true
+  # update_interval: 100
+
+output:
+  - platform: dmx512
+    channel: 1
+    universe: dmx
+    id: dmx_1
+
+  - platform: dmx512
+    channel: 2
+    universe: dmx
+    id: dmx_2
+
+  - platform: dmx512
+    channel: 3
+    universe: dmx
+    id: dmx_3
+
+  - platform: dmx512
+    channel: 4
+    universe: dmx
+    id: dmx_4
+
+  - platform: dmx512
+    channel: 5
+    universe: dmx
+    id: dmx_5
+
+  - platform: dmx512
+    channel: 6
+    universe: dmx
+    id: dmx_6
+
+  - platform: dmx512
+    channel: 7
+    universe: dmx
+    id: dmx_7
+
+  - platform: dmx512
+    channel: 8
+    universe: dmx
+    id: dmx_8
+
+  - platform: dmx512
+    channel: 9
+    universe: dmx
+    id: dmx_9
+
+  - platform: dmx512
+    channel: 10
+    universe: dmx
+    id: dmx_10
+
+number:
+  - platform: template
+    name: "Rotation"
+    icon: mdi:rotate-360
+    id: number_dmx_3
+    optimistic: true
+    min_value: 0
+    max_value: 255
+    step: 1
+    set_action:
+      - lambda: |-
+          id(dmx_3).set_level(x / 255);
+
+  - platform: template
+    name: "Horizontal Rotation (width)"
+    icon: mdi:axis-z-rotate-clockwise
+    id: number_dmx_4
+    optimistic: true
+    min_value: 0
+    max_value: 255
+    step: 1
+    set_action:
+      - lambda: |-
+          id(dmx_4).set_level(x / 255);
+
+  - platform: template
+    name: "Vertical Rotation (height)"
+    icon: mdi:horizontal-rotate-clockwise
+    id: number_dmx_5
+    optimistic: true
+    min_value: 0
+    max_value: 255
+    step: 1
+    set_action:
+      - lambda: |-
+          id(dmx_5).set_level(x / 255);
+
+  - platform: template
+    name: "Horizontal Position"
+    icon: mdi:pan-horizontal
+    id: number_dmx_6
+    optimistic: true
+    min_value: 0
+    max_value: 255
+    step: 1
+    set_action:
+      - lambda: |-
+          id(dmx_6).set_level(x / 255);
+
+  - platform: template
+    name: "Vertical Position"
+    icon: mdi:pan-vertical
+    id: number_dmx_7
+    optimistic: true
+    min_value: 0
+    max_value: 255
+    step: 1
+    set_action:
+      - lambda: |-
+          id(dmx_7).set_level(x / 255);
+
+  - platform: template
+    name: "Pattern Size"
+    icon: mdi:resize
+    id: number_dmx_8
+    optimistic: true
+    min_value: 0
+    max_value: 255
+    step: 1
+    set_action:
+      - lambda: |-
+          id(dmx_8).set_level(x / 255);
+
+  - platform: template
+    name: "Color"
+    icon: mdi:palette
+    id: number_dmx_9
+    optimistic: true
+    min_value: 0
+    max_value: 255
+    step: 1
+    set_action:
+      - lambda: |-
+          id(dmx_9).set_level(x / 255);
+
+  - platform: template
+    name: "Speed Lines/Dots"
+    icon: mdi:speedometer
+    id: number_dmx_10
+    optimistic: true
+    min_value: 0
+    max_value: 255
+    step: 1
+    set_action:
+      - lambda: |-
+          id(dmx_10).set_level(x / 255);
+
+select:
+  - platform: template
+    name: "Mode Selection"
+    icon: mdi:dip-switch
+    id: select_dmx_1
+    optimistic: true
+    options:
+      - "Off"
+      - "Manual"
+      - "Auto"
+      - "Sound"
+    set_action:
+      - lambda: |-
+          if (x.compare(std::string{"Off"}) == 0) {
+            id(dmx_1).set_level(0);
+          }
+          if (x.compare(std::string{"Manual"}) == 0) {
+            id(dmx_1).set_level(0.251);
+          }
+          if (x.compare(std::string{"Auto"}) == 0) {
+            id(dmx_1).set_level(0.501);
+          }
+          if (x.compare(std::string{"Sound"}) == 0) {
+            id(dmx_1).set_level(0.751);
+          }
+
+  - platform: template
+    name: "Pattern Selection"
+    id: select_dmx_2
+    optimistic: true
+    icon: mdi:lock-pattern
+    # Generated using pattern-options-generate.py
+    options:
+      - "A Square"
+      - "Apple"
+      - "Arrow Pointing Left"
+      - "Arrows Pointing To Each Other Vertically"
+      - "Christmas Tree"
+      - "Circle Around A Square"
+      - "Circle Filling Triangle"
+      - "Circle"
+      - "Cross"
+      - "Dashed Circle"
+      - "Diagonal Line"
+      - "Donut"
+      - "Four Compass Arrows"
+      - "Four Diamond Petal Flower"
+      - "Four Petal Flower"
+      - "Four Rotating Rectangles"
+      - "Hill"
+      - "Horizontal Diamond"
+      - "Horizontal Line With Gap"
+      - "Horizontal Line"
+      - "Hour Glass"
+      - "Left Half Circle"
+      - "Left Pointing Open Triangle"
+      - "Love Heart"
+      - "Music Quaver"
+      - "One"
+      - "Pentagon"
+      - "Right Pointing Double Arrow"
+      - "Sine Wave"
+      - "Sloping Parallelogram"
+      - "Small Circle Bottom Right"
+      - "Spinning Lines"
+      - "Stairs, No Start Landing"
+      - "Stairs, Start Landing"
+      - "Star"
+      - "Three Horizontal Lines Stepping Down"
+      - "Three Lines From Center"
+      - "Three Petal Flower"
+      - "Three Vertical Spikes"
+      - "Three"
+      - "Top Half Circle"
+      - "Triangle With Lines To Center"
+      - "Triangle"
+      - "Two Dots, Top"
+      - "Two Horizontal Parallel Lines"
+      - "Two Nested Triangles"
+      - "Two Small Circles, Bottom Left, Top Right"
+      - "Two Vertical Parallel Lines"
+      - "Two"
+      - "Vertical Line With Gap"
+      - "Vertical Line"
+    set_action:
+      - lambda: |-
+          if (x.compare(std::string{"A Square"}) == 0) { id(dmx_2).set_level(0.0); }
+          if (x.compare(std::string{"Circle"}) == 0) { id(dmx_2).set_level(0.03137254901960784); }
+          if (x.compare(std::string{"Horizontal Line"}) == 0) { id(dmx_2).set_level(0.050980392156862744); }
+          if (x.compare(std::string{"Vertical Line"}) == 0) { id(dmx_2).set_level(0.07058823529411765); }
+          if (x.compare(std::string{"Diagonal Line"}) == 0) { id(dmx_2).set_level(0.09019607843137255); }
+          if (x.compare(std::string{"Left Half Circle"}) == 0) { id(dmx_2).set_level(0.10196078431372549); }
+          if (x.compare(std::string{"Top Half Circle"}) == 0) { id(dmx_2).set_level(0.12156862745098039); }
+          if (x.compare(std::string{"Triangle"}) == 0) { id(dmx_2).set_level(0.1411764705882353); }
+          if (x.compare(std::string{"Left Pointing Open Triangle"}) == 0) { id(dmx_2).set_level(0.1607843137254902); }
+          if (x.compare(std::string{"Two Horizontal Parallel Lines"}) == 0) { id(dmx_2).set_level(0.1803921568627451); }
+          if (x.compare(std::string{"Two Vertical Parallel Lines"}) == 0) { id(dmx_2).set_level(0.2); }
+          if (x.compare(std::string{"Horizontal Line With Gap"}) == 0) { id(dmx_2).set_level(0.2196078431372549); }
+          if (x.compare(std::string{"Vertical Line With Gap"}) == 0) { id(dmx_2).set_level(0.23921568627450981); }
+          if (x.compare(std::string{"Stairs, Start Landing"}) == 0) { id(dmx_2).set_level(0.25882352941176473); }
+          if (x.compare(std::string{"Stairs, No Start Landing"}) == 0) { id(dmx_2).set_level(0.2784313725490196); }
+          if (x.compare(std::string{"Music Quaver"}) == 0) { id(dmx_2).set_level(0.2980392156862745); }
+          if (x.compare(std::string{"Small Circle Bottom Right"}) == 0) { id(dmx_2).set_level(0.3215686274509804); }
+          if (x.compare(std::string{"Christmas Tree"}) == 0) { id(dmx_2).set_level(0.3411764705882353); }
+          if (x.compare(std::string{"Three"}) == 0) { id(dmx_2).set_level(0.3607843137254902); }
+          if (x.compare(std::string{"Hill"}) == 0) { id(dmx_2).set_level(0.3803921568627451); }
+          if (x.compare(std::string{"Star"}) == 0) { id(dmx_2).set_level(0.4); }
+          if (x.compare(std::string{"Sine Wave"}) == 0) { id(dmx_2).set_level(0.4196078431372549); }
+          if (x.compare(std::string{"Two"}) == 0) { id(dmx_2).set_level(0.4392156862745098); }
+          if (x.compare(std::string{"One"}) == 0) { id(dmx_2).set_level(0.4588235294117647); }
+          if (x.compare(std::string{"Love Heart"}) == 0) { id(dmx_2).set_level(0.47843137254901963); }
+          if (x.compare(std::string{"Two Dots, Top"}) == 0) { id(dmx_2).set_level(0.5019607843137255); }
+          if (x.compare(std::string{"Apple"}) == 0) { id(dmx_2).set_level(0.5215686274509804); }
+          if (x.compare(std::string{"Dashed Circle"}) == 0) { id(dmx_2).set_level(0.5411764705882353); }
+          if (x.compare(std::string{"Two Small Circles, Bottom Left, Top Right"}) == 0) { id(dmx_2).set_level(0.5607843137254902); }
+          if (x.compare(std::string{"Donut"}) == 0) { id(dmx_2).set_level(0.5803921568627451); }
+          if (x.compare(std::string{"Triangle With Lines To Center"}) == 0) { id(dmx_2).set_level(0.6); }
+          if (x.compare(std::string{"Cross"}) == 0) { id(dmx_2).set_level(0.611764705882353); }
+          if (x.compare(std::string{"Circle Around A Square"}) == 0) { id(dmx_2).set_level(0.6313725490196078); }
+          if (x.compare(std::string{"Two Nested Triangles"}) == 0) { id(dmx_2).set_level(0.6509803921568628); }
+          if (x.compare(std::string{"Spinning Lines"}) == 0) { id(dmx_2).set_level(0.6705882352941176); }
+          if (x.compare(std::string{"Three Lines From Center"}) == 0) { id(dmx_2).set_level(0.6901960784313725); }
+          if (x.compare(std::string{"Three Horizontal Lines Stepping Down"}) == 0) { id(dmx_2).set_level(0.7098039215686275); }
+          if (x.compare(std::string{"Pentagon"}) == 0) { id(dmx_2).set_level(0.7294117647058823); }
+          if (x.compare(std::string{"Four Petal Flower"}) == 0) { id(dmx_2).set_level(0.7490196078431373); }
+          if (x.compare(std::string{"Four Compass Arrows"}) == 0) { id(dmx_2).set_level(0.7686274509803922); }
+          if (x.compare(std::string{"Arrow Pointing Left"}) == 0) { id(dmx_2).set_level(0.788235294117647); }
+          if (x.compare(std::string{"Hour Glass"}) == 0) { id(dmx_2).set_level(0.8117647058823529); }
+          if (x.compare(std::string{"Circle Filling Triangle"}) == 0) { id(dmx_2).set_level(0.8313725490196079); }
+          if (x.compare(std::string{"Three Petal Flower"}) == 0) { id(dmx_2).set_level(0.8509803921568627); }
+          if (x.compare(std::string{"Four Rotating Rectangles"}) == 0) { id(dmx_2).set_level(0.8705882352941177); }
+          if (x.compare(std::string{"Right Pointing Double Arrow"}) == 0) { id(dmx_2).set_level(0.8901960784313725); }
+          if (x.compare(std::string{"Horizontal Diamond"}) == 0) { id(dmx_2).set_level(0.9098039215686274); }
+          if (x.compare(std::string{"Arrows Pointing To Each Other Vertically"}) == 0) { id(dmx_2).set_level(0.9294117647058824); }
+          if (x.compare(std::string{"Three Vertical Spikes"}) == 0) { id(dmx_2).set_level(0.9490196078431372); }
+          if (x.compare(std::string{"Four Diamond Petal Flower"}) == 0) { id(dmx_2).set_level(0.9686274509803922); }
+          if (x.compare(std::string{"Sloping Parallelogram"}) == 0) { id(dmx_2).set_level(0.9882352941176471); }

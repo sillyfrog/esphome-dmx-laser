@@ -1,0 +1,51 @@
+0: A Square
+8: Circle
+13: Horizontal Line
+18: Vertical Line
+23: Diagonal Line
+26: Left Half Circle
+31: Top Half Circle
+36: Triangle
+41: Left Pointing Open Triangle
+46: Two Horizontal Parallel Lines
+51: Two Vertical Parallel Lines
+56: Horizontal Line With Gap
+61: Vertical Line With Gap
+66: Stairs, Start Landing
+71: Stairs, No Start Landing
+76: Music Quaver
+82: Small Circle Bottom Right
+87: Christmas Tree
+92: Three
+97: Hill
+102: Star
+107: Sine Wave
+112: Two
+117: One
+122: Love Heart
+128: Two Dots, Top
+133: Apple
+138: Dashed Circle
+143: Two Small Circles, Bottom Left, Top Right
+148: Donut
+153: Triangle With Lines To Center
+156: Cross
+161: Circle Around A Square
+166: Two Nested Triangles
+171: Spinning Lines
+176: Three Lines From Center
+181: Three Horizontal Lines Stepping Down
+186: Pentagon
+191: Four Petal Flower
+196: Four Compass Arrows
+201: Arrow Pointing Left
+207: Hour Glass
+212: Circle Filling Triangle
+217: Three Petal Flower
+222: Four Rotating Rectangles
+227: Right Pointing Double Arrow
+232: Horizontal Diamond
+237: Arrows Pointing To Each Other Vertically
+242: Three Vertical Spikes
+247: Four Diamond Petal Flower
+252: Sloping Parallelogram 

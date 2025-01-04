@@ -34,11 +34,13 @@ The XLR pin numbers are printed on the XLR connectors.
 Optionally, you can also connect the ground wire (although I didn't need it, but for longer runs it might be necessary depending on the cabling used):
 - RS485 GND -> XLR 1 (GND)
 
-See the included `dmx.yaml` for the full ESPHome configuration, not the `wifi:`, `board:` sections need to be updated to match your network. This configuration automatically uses the `esphome-dmx512` custom component (there is no need to install it separately).
+# Basic Configuration Example
+
+See the included `dmx.yaml` for a simple ESPHome configuration, note the `wifi:`, `board:` sections need to be updated to match your network. This configuration automatically uses the `esphome-dmx512` custom component (there is no need to install it separately).
 
 I have everything configured as a light as it was simple for me to work with, and nothing needed each step of the 255 range (ie: the range was mapped from 0-100% to the 0-255 range).
 
-# Changing the pattern etc
+## Changing the pattern etc
 
 Once ESPhome is installed and flashed on to the ESP, connect it to Home Assistant, once connected to Home Assistant, you can change the pattern/position/color etc by adjusting the brightness of the light entities that will be shown.
 
@@ -49,6 +51,12 @@ So to get a manually selected christmas tree pattern, in red, select the followi
 - Mode: 25% (64)
 - Pattern: 34% (87)
 - Color: 44% (112)
+
+# Advanced Configuration
+
+The included `dmx-advanced.yaml` is a more advanced configuration that includes "correct" configuration values for Home Assistant, allowing for exact value selection, dropdown of the patterns, modes etc.
+
+There are supporting files/scripts in the `scripts` directory that are used to generate the patterns section of the configuration.
 
 # Things I Learnt
 
